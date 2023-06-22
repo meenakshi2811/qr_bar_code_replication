@@ -4,7 +4,7 @@ import 'package:barcode_widget/barcode_widget.dart';
 import 'package:qr_code/replicate.dart';
 
 class Second extends StatefulWidget {
-  const Second({super.key});
+  const Second({Key? key}) : super(key: key);
 
   @override
   _SecondState createState() => _SecondState();
@@ -14,7 +14,6 @@ class _SecondState extends State<Second> {
   String? _qrInfo = 'Scan a QR/Bar code';
   bool camState = false;
   int replicationCount = 1; // Default replication count is set to 1
-
 
   qrCallback(String? code) {
     setState(() {
@@ -37,9 +36,7 @@ class _SecondState extends State<Second> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           if (camState == true) {
-
             setState(() {
-
               camState = false;
             });
           } else {
@@ -75,17 +72,17 @@ class _SecondState extends State<Second> {
               width: double.infinity,
               height: 50,
               decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all()),
-
-              child:Text(
+                color: Colors.white,
+                border: Border.all(),
+              ),
+              child: Text(
                 "Code :${_qrInfo!}",
                 style: const TextStyle(
                   fontSize: 15,
                 ),
               ),
             ),
-            SizedBox(height: 50),
+            const SizedBox(height: 50),
             Container(
               width: 200,
               height: 200,
@@ -94,11 +91,13 @@ class _SecondState extends State<Second> {
                 border: Border.all(),
               ),
               child: _qrInfo != null && _qrInfo!.isNotEmpty
-                  ?BarcodeWidget(
-                  barcode: Barcode.qrCode(),
-                  data: _qrInfo!,
-                  width: 200,
-                  height: 200
+                  ? BarcodeWidget(
+                barcode: _qrInfo!.length <= 13
+                    ? Barcode.code128()
+                    : Barcode.qrCode(),
+                data: _qrInfo!,
+                width: 200,
+                height: 200,
               )
                   : const Text(
                 "Scan a QR/Bar code",
@@ -118,13 +117,13 @@ class _SecondState extends State<Second> {
                 setState(() {
                   replicationCount = int.tryParse(value) ?? 1;
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ReplicateScreen(
-                          qrCodeData: _qrInfo ?? '',
-                          replicationCount: replicationCount,
-                        ),
-                      )
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ReplicateScreen(
+                        qrCodeData: _qrInfo ?? '',
+                        replicationCount: replicationCount,
+                      ),
+                    ),
                   );
                 });
               },
@@ -132,7 +131,6 @@ class _SecondState extends State<Second> {
           ],
         ),
       ),
-
     );
   }
 }

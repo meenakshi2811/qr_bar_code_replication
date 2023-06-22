@@ -52,7 +52,7 @@ class _HomeState extends State<Home> {
             onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (context) => Second()));
             },
-            child: const Text('Scan the QR Code')
+            child: const Text('Scan the QR Code/ Barcode')
           ),
         )
       ),
